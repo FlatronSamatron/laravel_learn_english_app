@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\StoryController;
+use App\Http\Controllers\Admin\UnitController;
+use App\Http\Controllers\Admin\WordController;
+use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -26,9 +31,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [Dashboard::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -38,11 +41,23 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['admin', 'auth'])->group(function (){
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/admin/book', [AdminController::class, 'book'])->name('admin.book');
-    Route::post('/admin/book/store', [AdminController::class, 'bookStore'])->name('admin.book.store');
-    Route::get('/admin/unit', [AdminController::class, 'unit'])->name('admin.unit');
-    Route::post('/admin/unit/store', [AdminController::class, 'unitStore'])->name('admin.unit.store');
-    Route::get('/admin/words', [AdminController::class, 'words'])->name('admin.words');
+    Route::get('/admin/book', [BookController::class, 'book'])->name('admin.book');
+    Route::post('/admin/book/store', [BookController::class, 'bookStore'])->name('admin.book.store');
+    Route::get('/admin/unit', [UnitController::class, 'unit'])->name('admin.unit');
+    Route::post('/admin/unit/store', [UnitController::class, 'unitStore'])->name('admin.unit.store');
+    Route::get('/admin/words', [WordController::class, 'words'])->name('admin.words');
+    Route::post('/admin/words/store', [WordController::class, 'wordsStore'])->name('admin.words.store');
+    Route::get('/admin/words/list', [WordController::class, 'wordsList'])->name('admin.words.list');
+    Route::post('/admin/words/list', [WordController::class, 'getWordsList'])->name('admin.words.list.get');
+    Route::get('/admin/stories', [StoryController::class, 'index'])->name('admin.stories');
+});
+
+Route::middleware(['auth'])->group(function (){
+    Route::post('/words/favorite', [Dashboard::class, 'addToFavorite'])->name('word.favorite');
+    Route::get('/words/{book_id}/{unit_id}', [Dashboard::class, 'getUnitWords'])->name('words.unit.list');
+    Route::post('/words/example', [Dashboard::class, 'storeExampleTranslate'])->name('words.example');
+    Route::get('/words/example/{book_id}/{unit_id}', [Dashboard::class, 'getExampleTranslates'])->name('words.example.translates');
+    Route::post('/words/statistic', [Dashboard::class, 'storeWordStatistic'])->name('words.statistic.store');
 });
 
 require __DIR__.'/auth.php';

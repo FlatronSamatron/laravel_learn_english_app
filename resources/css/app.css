@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ant-input-group-addon{
+    cursor: pointer;
+}
+
+.hover-scale:hover>svg{
+    transform: scale(1.2);
+    transition: all 0.3s;
+}
+
+.hover-scale>svg{
+    transition: all 0.3s;
+}
+
+.hide b, .hide i{
+    visibility: hidden;
+    position: relative;
+}
+
+.reveal b, .reveal i{
+    position: relative;
+}
+
+.hide>i::after, .hide>b::after, .reveal>b::after, .reveal>i::after{
+    display: block;
+    content: "";
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    background: rgb(59 130 246);
+    visibility: visible;
+    left: 0;
+    bottom: 0;
+}
+
+.ant-tooltip-arrow{
+    bottom: 1px !important;
+}

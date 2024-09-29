@@ -41,4 +41,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+//    protected $with = ['favorites'];
+
+    public function unitCompleted()
+    {
+        return $this->hasOne(UnitComplete::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function translateExamples()
+    {
+        return $this->belongsToMany(Word::class, 'word_example_translations', 'user_id', 'word_id')
+                ->without('definitionTranslations', 'exampleTranslations', 'translations', 'userWordStatistics')
+                ->withPivot('translate')
+                ->withTimestamps();
+    }
 }

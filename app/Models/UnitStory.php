@@ -5,14 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Unit extends Model
+class UnitStory extends Model
 {
     use HasFactory;
-
-    protected $guarded = [];
-
-    public function words()
-    {
-        return $this->hasMany(Word::class);
-    }
 }
