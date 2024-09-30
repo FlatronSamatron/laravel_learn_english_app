@@ -18,12 +18,6 @@ const TrainWords = () => {
         setGame(null)
     }, [wordsData]);
 
-    useEffect(() => {
-        return () => {
-            console.log(!!unitStatistic.length)
-        }
-    }, [unitStatistic]);
-
     const updateStatistic = () => {
         const newWordData = wordsData.map(word => {
             const stat = unitStatistic.find(stat => stat.word_id === word.id);

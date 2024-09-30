@@ -6,10 +6,11 @@ import {
     LineChartOutlined,
     RiseOutlined,
 } from "@ant-design/icons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import UnitList from "@/Components/Dashboard/UnitList.jsx";
 import TrainWords from "@/Components/Dashboard/TrainWords.jsx";
 import { DashboardContext } from "@/Components/Dashboard/DashboardContext.js";
+import UnitStory from "@/Components/Dashboard/UnitStory.jsx";
 
 const getItems = (books) => {
     return [
@@ -29,6 +30,7 @@ const getItems = (books) => {
                             children: [
                                 { key: `learn-${book.id}.${unit.id}`, label: 'Learn' },
                                 { key: `train-${book.id}.${unit.id}`, label: 'Train'},
+                                { key: `story-${book.id}.${unit.id}`, label: 'Story'},
                                 { key: `exam-${book.id}.${unit.id}`, label: 'Examination' },
                             ],
                         }
@@ -40,6 +42,10 @@ const getItems = (books) => {
             key: 'sub2',
             label: 'Favorites',
             icon: <HeartOutlined />,
+            children: [
+                { key: `learn-favorite`, label: 'Learn' },
+                { key: `train-favorite`, label: 'Train'},
+            ],
         },
         {
             key: 'sub3',
@@ -58,32 +64,31 @@ export default function Dashboard({ auth, books, words, language, favorites, boo
     const [wordsData, setWordsData] = useState(words)
     const [favoritesData, setFavoritesData] = useState(favorites)
     const [isLoad, setIsLoad] = useState(false)
-    const [bookUnitId, setBookUnitId] = useState(`${bookUnit.book_id}.${bookUnit.unit_id}`)
+    const [bookId, setBookId] = useState(bookUnit.book_id)
+    const [unitId, setUnitId] = useState(bookUnit.unit_id)
     const [mode, setMode] = useState('learn')
 
 
-    const getUnit = async (key) => {
-        const [book_id, unit_id] = key ? key.split('-')[1].split('.') : bookUnitId.split('.')
+    const getUnit = (key, modeType) => {
+        const [book_id, unit_id] = key.split('.')
+        setIsLoad(true)
 
-        if(`${book_id}.${unit_id}` !== bookUnitId || mode === 'train'){
-            setIsLoad(true)
-            await axios(route('words.unit.list', {book_id, unit_id}))
-                .then(res => {
-                    setWordsData(res.data)
-                    setIsLoad(false)
-                })
-            setBookUnitId(`${book_id}.${unit_id}`)
-        }
+        axios(route('words.unit.list', {book_id, unit_id}))
+            .then(res => {
+                setWordsData(res.data)
+                setIsLoad(false)
+                setBookId(book_id)
+                setUnitId(unit_id)
+            })
     }
 
     const onClick = (e) => {
-        if(e.key.includes('learn')){
-            setMode('learn');
-            getUnit(e.key)
-        }
-        if(e.key.includes('train')){
-            setMode('train');
-            getUnit(e.key)
+        const key = e.key.split('-')
+        if(key.includes('favorite')){
+            console.log(favoritesData)
+        } else {
+            setMode(key[0]);
+            getUnit(key[1], key[0])
         }
     };
 
@@ -100,7 +105,8 @@ export default function Dashboard({ auth, books, words, language, favorites, boo
                 favoritesData,
                 setFavoritesData,
                 setWordsData,
-                getUnit
+                unitId,
+                bookId
             }}>
                 <div className="py-12">
                     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -110,7 +116,7 @@ export default function Dashboard({ auth, books, words, language, favorites, boo
                                 style={{
                                     width: 200,
                                 }}
-                                defaultSelectedKeys={`learn-${setBookUnitId}`}
+                                defaultSelectedKeys={`learn-${bookId}.${unitId}`}
                                 defaultOpenKeys={['sub1']}
                                 mode="inline"
                                 items={getItems(books)}
@@ -119,6 +125,7 @@ export default function Dashboard({ auth, books, words, language, favorites, boo
                                 isLoad={isLoad}
                             />}
                             {mode === 'train' && <TrainWords/>}
+                            {mode === 'story' && <UnitStory/>}
                         </div>
                     </div>
                 </div>

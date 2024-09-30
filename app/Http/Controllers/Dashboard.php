@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BookResource;
 use App\Http\Resources\ExampleTranslateResource;
 use App\Http\Resources\FavoriteResource;
+use App\Http\Resources\UnitStoryResource;
 use App\Http\Resources\WordResource;
 use App\Http\Resources\WordStatisticResource;
 use App\Models\Book;
@@ -123,5 +124,10 @@ class Dashboard extends Controller
         }
 
         return (new WordStatisticResource($statistic->first()))->resolve();
+    }
+
+    public function getUnitStory(Unit $unit)
+    {
+        return (new UnitStoryResource($unit->story))->resolve();
     }
 }

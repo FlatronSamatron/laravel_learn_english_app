@@ -156,10 +156,6 @@ function Words({auth, books}) {
         setWordsData(changeTrans)
     }
 
-    // useEffect(() => {
-    //     console.log(wordsData)
-    // }, [wordsData])
-
     return (
         <AdminLayout
             user={auth.user}

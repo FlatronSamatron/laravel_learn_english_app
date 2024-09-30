@@ -26,6 +26,14 @@ const adminMenuData = [
         title: 'Words List',
         routeLink: 'admin.words.list'
     },
+    {
+        title: 'Add Story',
+        routeLink: 'admin.stories'
+    },
+    {
+        title: 'Stories',
+        routeLink: 'admin.stories.list'
+    },
 ]
 
 export default function Authenticated({ user, header, children }) {

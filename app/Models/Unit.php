@@ -15,4 +15,9 @@ class Unit extends Model
     {
         return $this->hasMany(Word::class);
     }
+
+    public function story()
+    {
+        return $this->hasOne(UnitStory::class);
+    }
 }

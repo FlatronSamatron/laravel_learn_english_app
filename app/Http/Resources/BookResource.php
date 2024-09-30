@@ -16,11 +16,11 @@ class BookResource extends JsonResource
     {
         return [
                 'id'          => $this->id,
-                'book_number'       => $this->book_number,
+                'book_number' => $this->book_number,
                 'description' => $this->description,
                 'date'        => $this->created_at->diffForHumans(),
                 'units_count' => $this->units_count,
-                'units' => UnitResource::collection($this->units)->resolve()
+                'units'       => UnitResource::collection($this->units)->resolve(),
         ];
     }
 }

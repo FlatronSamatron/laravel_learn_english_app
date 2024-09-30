@@ -2,29 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-.ant-input-group-addon{
+.ant-input-group-addon {
     cursor: pointer;
 }
 
-.hover-scale:hover>svg{
+.hover-scale:hover > svg {
     transform: scale(1.2);
     transition: all 0.3s;
 }
 
-.hover-scale>svg{
+.hover-scale > svg {
     transition: all 0.3s;
 }
 
-.hide b, .hide i{
+.hide b, .hide i {
     visibility: hidden;
     position: relative;
 }
 
-.reveal b, .reveal i{
+.reveal b, .reveal i {
     position: relative;
 }
 
-.hide>i::after, .hide>b::after, .reveal>b::after, .reveal>i::after{
+.hide > i::after, .hide > b::after, .reveal > b::after, .reveal > i::after {
     display: block;
     content: "";
     width: 100%;
@@ -36,6 +36,18 @@
     bottom: 0;
 }
 
-.ant-tooltip-arrow{
+.ant-tooltip-arrow {
     bottom: 1px !important;
+}
+
+.story p {
+    text-indent: 1.5em;
+    background: rgb(243 244 246);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.story h1 {
+    font-weight: bold;
+    font-size: 25px;
 }

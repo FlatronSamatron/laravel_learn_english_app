@@ -50,6 +50,10 @@ Route::middleware(['admin', 'auth'])->group(function (){
     Route::get('/admin/words/list', [WordController::class, 'wordsList'])->name('admin.words.list');
     Route::post('/admin/words/list', [WordController::class, 'getWordsList'])->name('admin.words.list.get');
     Route::get('/admin/stories', [StoryController::class, 'index'])->name('admin.stories');
+    Route::post('/admin/stories', [StoryController::class, 'addStory'])->name('admin.stories.store');
+    Route::get('/admin/stories/list', [StoryController::class, 'storiesList'])->name('admin.stories.list');
+    Route::get('/admin/stories/{unit}', [StoryController::class, 'getStory'])->name('admin.stories.get');
+    Route::post('/admin/stories/{story}', [StoryController::class, 'updateStory'])->name('admin.stories.update');
 });
 
 Route::middleware(['auth'])->group(function (){
@@ -58,6 +62,7 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/words/example', [Dashboard::class, 'storeExampleTranslate'])->name('words.example');
     Route::get('/words/example/{book_id}/{unit_id}', [Dashboard::class, 'getExampleTranslates'])->name('words.example.translates');
     Route::post('/words/statistic', [Dashboard::class, 'storeWordStatistic'])->name('words.statistic.store');
+    Route::get('/unit/{unit}/story', [Dashboard::class, 'getUnitStory'])->name('units.story');
 });
 
 require __DIR__.'/auth.php';
