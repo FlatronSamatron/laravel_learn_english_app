@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
 import {Divider, Progress, Skeleton, Tooltip} from 'antd';
-import {PlayCircleTwoTone, SoundOutlined, StarFilled, StarOutlined} from "@ant-design/icons";
-import { green, red, yellow } from '@ant-design/colors';
+import {PlayCircleTwoTone} from "@ant-design/icons";
 import {DashboardContext} from "@/Components/Dashboard/DashboardContext.js";
+import FavoriteStar from "@/Components/Dashboard/FavoriteStar.jsx";
 
 const colors = [
     'pink',
@@ -34,23 +34,7 @@ const UnitList = ({isLoad}) => {
     const {
         wordsData,
         language,
-        favoritesData,
-        setFavoritesData
     } = useContext(DashboardContext);
-
-    const setFavorite = (word) => {
-        axios.post(route('word.favorite'), {
-            'word_id': word.id,
-            'book_id': word.book_id,
-            'unit_id': word.unit_id,
-        }).then(res => {
-            setFavoritesData(res.data);
-        })
-    }
-
-    const isFavorite = (id) => {
-        return favoritesData.some(item => item === id)
-    }
 
     return (
         <div className="p-4 w-full grid grid-cols-2 gap-4">
@@ -77,13 +61,7 @@ const UnitList = ({isLoad}) => {
                                         className="cursor-pointer ml-3 hover-scale"
                                     />
                                 </div>
-                                {isFavorite(word.id) ? <StarFilled
-                                    className="text-3xl text-yellow-400 cursor-pointer favorite"
-                                    onClick={()=>setFavorite(word)}
-                                /> : <StarOutlined
-                                    className="text-3xl text-yellow-400 cursor-pointer favorite"
-                                    onClick={()=>setFavorite(word)}
-                                />}
+                                <FavoriteStar word={word}/>
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-sm">Correct answers:</span>

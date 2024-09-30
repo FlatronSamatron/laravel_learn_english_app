@@ -60,9 +60,9 @@ const getItems = (books) => {
     ]
 }
 
-export default function Dashboard({ auth, books, words, language, favorites, bookUnit }) {
+export default function Dashboard({ auth, books, words, language, favoritesIds, bookUnit }) {
     const [wordsData, setWordsData] = useState(words)
-    const [favoritesData, setFavoritesData] = useState(favorites)
+    const [favoritesDataIds, setFavoritesDataIds] = useState(favoritesIds)
     const [isLoad, setIsLoad] = useState(false)
     const [bookId, setBookId] = useState(bookUnit.book_id)
     const [unitId, setUnitId] = useState(bookUnit.unit_id)
@@ -85,7 +85,7 @@ export default function Dashboard({ auth, books, words, language, favorites, boo
     const onClick = (e) => {
         const key = e.key.split('-')
         if(key.includes('favorite')){
-            console.log(favoritesData)
+            console.log(favoritesDataIds)
         } else {
             setMode(key[0]);
             getUnit(key[1], key[0])
@@ -102,8 +102,8 @@ export default function Dashboard({ auth, books, words, language, favorites, boo
             <DashboardContext.Provider value={{
                 wordsData,
                 language,
-                favoritesData,
-                setFavoritesData,
+                favoritesDataIds,
+                setFavoritesDataIds,
                 setWordsData,
                 unitId,
                 bookId

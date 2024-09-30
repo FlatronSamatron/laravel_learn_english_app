@@ -10,6 +10,7 @@ import {
 import {DashboardContext, GameContext} from "@/Components/Dashboard/DashboardContext.js";
 import GameStatistic from "@/Components/Dashboard/Games/GameStatistic.jsx";
 import {storeStatistic} from "@/Shared/utils.js";
+import FavoriteStar from "@/Components/Dashboard/FavoriteStar.jsx";
 
 
 const {Meta} = Card;
@@ -27,8 +28,6 @@ const TranslateFromTo = ({from, isRandom}) => {
     const btnRef = useRef(null);
 
     const {
-        favoritesData,
-        setFavoritesData,
         wordsData,
         language
     } = useContext(DashboardContext);
@@ -58,19 +57,6 @@ const TranslateFromTo = ({from, isRandom}) => {
         inputRef.current.focus();
     }, [wordNumber]);
 
-    const isFavorite = (id) => {
-        return favoritesData.some(item => item === id)
-    }
-
-    const setFavorite = (word) => {
-        axios.post(route('word.favorite'), {
-            'word_id': word.id,
-            'book_id': word.book_id,
-            'unit_id': word.unit_id,
-        }).then(res => {
-            setFavoritesData(res.data);
-        })
-    }
 
     const checkCorrect = () => {
         let correct = 0;
@@ -145,13 +131,7 @@ const TranslateFromTo = ({from, isRandom}) => {
                 cover={<img alt="image" src={`/assets/images/${word.word_hash}.jpg`}/>}
             >
                 <div className="absolute top-3 right-3">
-                    {isFavorite(word.id) ? <StarFilled
-                        className="text-3xl text-yellow-400 cursor-pointer hover-scale"
-                        onClick={() => setFavorite(word)}
-                    /> : <StarOutlined
-                        className="text-3xl text-yellow-400 cursor-pointer hover-scale"
-                        onClick={() => setFavorite(word)}
-                    />}
+                    <FavoriteStar word={word}/>
                 </div>
 
                 <Meta

@@ -2,6 +2,7 @@ import React, {useContext, useEffect} from 'react';
 import {Button, Table} from "antd";
 import {DashboardContext} from "@/Components/Dashboard/DashboardContext.js";
 import {ArrowLeftOutlined, StarFilled, StarOutlined} from "@ant-design/icons";
+import FavoriteStar from "@/Components/Dashboard/FavoriteStar.jsx";
 
 
 const columns = [
@@ -30,24 +31,8 @@ const columns = [
 const GameStatistic = ({statistic, isEn}) => {
 
     const {
-        favoritesData,
-        setFavoritesData,
         language
     } = useContext(DashboardContext);
-
-    const isFavorite = (id) => {
-        return favoritesData.some(item => item === id)
-    }
-
-    const setFavorite = (word) => {
-        axios.post(route('word.favorite'), {
-            'word_id': word.id,
-            'book_id': word.book_id,
-            'unit_id': word.unit_id,
-        }).then(res => {
-            setFavoritesData(res.data);
-        })
-    }
 
     const getDataSource = (words) => {
         return words.map((word, i) => {
@@ -57,15 +42,7 @@ const GameStatistic = ({statistic, isEn}) => {
                 key: word.id,
                 name: isEn ? word.name : <p>{translateWords}</p>,
                 translate: isEn ? <p>{translateWords}</p> : word.name,
-                favorite: <div className="flex justify-center">
-                    {isFavorite(word.id) ? <StarFilled
-                        className="text-2xl text-yellow-400 cursor-pointer hover-scale"
-                        onClick={() => setFavorite(word)}
-                    /> : <StarOutlined
-                        className="text-2xl text-yellow-400 cursor-pointer hover-scale"
-                        onClick={() => setFavorite(word)}
-                    />}
-                </div>
+                favorite: <FavoriteStar word={word}/>
             }
         })
     }

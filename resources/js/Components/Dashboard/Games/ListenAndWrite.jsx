@@ -4,6 +4,7 @@ import {Button, Card, Divider} from "antd";
 import {ArrowRightOutlined, HeartTwoTone, PlayCircleTwoTone, StarFilled, StarOutlined} from "@ant-design/icons";
 import GameStatistic from "@/Components/Dashboard/Games/GameStatistic.jsx";
 import {storeStatistic} from "@/Shared/utils.js";
+import FavoriteStar from "@/Components/Dashboard/FavoriteStar.jsx";
 
 const ATTEMPTS_COUNT = 3
 
@@ -18,8 +19,6 @@ const ListenAndWrite = ({isRandom}) => {
     const [isFinish, setIsFinish] = useState(false)
 
     const {
-        favoritesData,
-        setFavoritesData,
         wordsData,
         language
     } = useContext(DashboardContext);
@@ -28,19 +27,6 @@ const ListenAndWrite = ({isRandom}) => {
         setUnitStatistic, unitStatistic
     } = useContext(GameContext);
 
-    const isFavorite = (id) => {
-        return favoritesData.some(item => item === id)
-    }
-
-    const setFavorite = (word) => {
-        axios.post(route('word.favorite'), {
-            'word_id': word.id,
-            'book_id': word.book_id,
-            'unit_id': word.unit_id,
-        }).then(res => {
-            setFavoritesData(res.data);
-        })
-    }
 
     const words = useMemo(() => {
         return isRandom ? [...wordsData].sort(() => .5 - Math.random()) : wordsData;
@@ -123,13 +109,7 @@ const ListenAndWrite = ({isRandom}) => {
                 bodyStyle={{padding: "0 20px 20px 20px"}}
             >
                 <div className="absolute top-3 right-3">
-                    {isFavorite(word.id) ? <StarFilled
-                        className="text-3xl text-yellow-400 cursor-pointer hover-scale"
-                        onClick={() => setFavorite(word)}
-                    /> : <StarOutlined
-                        className="text-3xl text-yellow-400 cursor-pointer hover-scale"
-                        onClick={() => setFavorite(word)}
-                    />}
+                    <FavoriteStar word={word}/>
                 </div>
                 <PlayCircleTwoTone
                     className="cursor-pointer hover-scale absolute left-3 top-3 text-3xl"

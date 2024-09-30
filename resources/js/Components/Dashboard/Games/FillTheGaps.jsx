@@ -5,6 +5,7 @@ import {Button, Card, Divider, Input, Tooltip} from "antd";
 import Meta from "antd/es/card/Meta.js";
 import GameStatistic from "@/Components/Dashboard/Games/GameStatistic.jsx";
 import {storeStatistic} from "@/Shared/utils.js";
+import FavoriteStar from "@/Components/Dashboard/FavoriteStar.jsx";
 
 const FillTheGaps = ({isRandom}) => {
     const [wordNumber, setWordNumber] = useState(0)
@@ -20,8 +21,6 @@ const FillTheGaps = ({isRandom}) => {
     const inputRef = useRef(null);
 
     const {
-        favoritesData,
-        setFavoritesData,
         wordsData,
         language
     } = useContext(DashboardContext);
@@ -30,19 +29,6 @@ const FillTheGaps = ({isRandom}) => {
         setUnitStatistic, unitStatistic
     } = useContext(GameContext);
 
-    const isFavorite = (id) => {
-        return favoritesData.some(item => item === id)
-    }
-
-    const setFavorite = (word) => {
-        axios.post(route('word.favorite'), {
-            'word_id': word.id,
-            'book_id': word.book_id,
-            'unit_id': word.unit_id,
-        }).then(res => {
-            setFavoritesData(res.data);
-        })
-    }
 
     const words = useMemo(() => {
         return isRandom ? [...wordsData].sort(() => .5 - Math.random()) : wordsData;
@@ -143,13 +129,7 @@ const FillTheGaps = ({isRandom}) => {
                 className="relative w-3/5"
             >
                 <div className="absolute top-3 right-3">
-                    {isFavorite(word.id) ? <StarFilled
-                        className="text-3xl text-yellow-400 cursor-pointer hover-scale"
-                        onClick={() => setFavorite(word)}
-                    /> : <StarOutlined
-                        className="text-3xl text-yellow-400 cursor-pointer hover-scale"
-                        onClick={() => setFavorite(word)}
-                    />}
+                    <FavoriteStar word={word}/>
                 </div>
                 <Meta
                     title={<Tooltip

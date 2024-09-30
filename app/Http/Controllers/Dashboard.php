@@ -39,11 +39,11 @@ class Dashboard extends Controller
         $books = BookResource::collection(Book::all())->resolve();
         $words = WordResource::collection($wordsData)->resolve();
 
-        $favorites = auth()->user()->favorites->pluck('word_id')->toArray();
+        $favoritesIds = auth()->user()->favorites->pluck('word_id')->toArray();
 
         $language = 'ru';
 
-        return inertia('Dashboard', compact('books', 'words', 'language', 'favorites', 'bookUnit'));
+        return inertia('Dashboard', compact('books', 'words', 'language', 'favoritesIds', 'bookUnit'));
     }
 
     public function addToFavorite(Request $request)
