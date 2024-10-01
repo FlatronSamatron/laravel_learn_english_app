@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\WordsStoreRequest;
 use App\Http\Resources\BookResource;
+use App\Http\Resources\TranslateResource;
 use App\Http\Resources\WordResource;
 use App\Models\Book;
 use App\Models\Word;
+use App\Models\WordTranslation;
 use Illuminate\Http\Request;
 
 class WordController extends Controller
@@ -74,5 +76,37 @@ class WordController extends Controller
         ])->get();
 
         return WordResource::collection($words)->resolve();
+    }
+
+    public function updateWordTranslate(WordTranslation $translate, Request $request)
+    {
+        $data = $request->validate([
+                'ru' => 'string|nullable',
+                'ua' => 'string|nullable'
+        ]);
+
+        $translate->update($data);
+    }
+
+    public function deleteWordTranslate(WordTranslation $translate)
+    {
+        $translate->delete();
+    }
+
+    public function createWordTranslate(Word $word, Request $request)
+    {
+        $data = $request->validate([
+                'ru' => 'string|nullable',
+                'ua' => 'string|nullable'
+        ]);
+
+        $data = [
+                'ru' => $data['ru'] ?? "",
+                'ua' => $data['ua'] ?? ""
+        ];
+
+        $translate = $word->translations()->create($data);
+
+        return (new TranslateResource($translate))->resolve();
     }
 }

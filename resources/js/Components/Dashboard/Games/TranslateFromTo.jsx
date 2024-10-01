@@ -15,7 +15,7 @@ import FavoriteStar from "@/Components/Dashboard/FavoriteStar.jsx";
 
 const {Meta} = Card;
 
-const TranslateFromTo = ({from, isRandom}) => {
+const TranslateFromTo = ({from, isRandom, wordsData}) => {
     const [wordNumber, setWordNumber] = useState(0)
     const [answer, setAnswer] = useState("");
     const [isCorrect, setIsCorrect] = useState(false);
@@ -28,7 +28,6 @@ const TranslateFromTo = ({from, isRandom}) => {
     const btnRef = useRef(null);
 
     const {
-        wordsData,
         language
     } = useContext(DashboardContext);
 

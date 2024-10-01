@@ -29,21 +29,21 @@ const play = (file) => {
     audio.play();
 }
 
-const UnitList = ({isLoad}) => {
+const WordsList = ({isLoad, wordsData}) => {
 
     const {
-        wordsData,
         language,
     } = useContext(DashboardContext);
+
+    if(isLoad) {
+        return <div className="p-4 w-full">
+            <Skeleton active paragraph={{rows: 40}}/>
+        </div>
+    }
 
     return (
         <div className="p-4 w-full grid grid-cols-2 gap-4">
             {wordsData.map( word => {
-
-                if(isLoad) {
-                    return <Skeleton active key={word.id}/>
-                }
-
                 return <div  key={word.id}
                     className="p-4 flex flex-col bg-white border border-gray-200 rounded-lg">
                     <div className="flex">
@@ -103,4 +103,4 @@ const UnitList = ({isLoad}) => {
     );
 };
 
-export default UnitList;
+export default WordsList;

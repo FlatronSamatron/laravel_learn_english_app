@@ -7,12 +7,12 @@ import ListenAndWrite from "@/Components/Dashboard/Games/ListenAndWrite.jsx";
 import FillTheGaps from "@/Components/Dashboard/Games/FillTheGaps.jsx";
 import TranslateSentence from "@/Components/Dashboard/Games/TranslateSentence.jsx";
 
-const TrainWords = () => {
+const TrainWords = ({wordsData, setWordsData}) => {
     const [isRandom, setIsRandom] = useState(false)
     const [game, setGame] = useState(null)
     const [unitStatistic, setUnitStatistic] = useState([])
 
-    const {language, wordsData, setWordsData} = useContext(DashboardContext);
+    const {language} = useContext(DashboardContext);
 
     useEffect(() => {
         setGame(null)
@@ -53,11 +53,11 @@ const TrainWords = () => {
     ];
 
     const components = {
-        1: <TranslateFromTo isRandom={isRandom} from='en'/>,
-        2: <TranslateFromTo isRandom={isRandom}/>,
-        3: <ListenAndWrite isRandom={isRandom}/>,
-        4: <FillTheGaps isRandom={isRandom}/>,
-        5: <TranslateSentence isRandom={isRandom}/>,
+        1: <TranslateFromTo isRandom={isRandom} wordsData={wordsData} from='en'/>,
+        2: <TranslateFromTo isRandom={isRandom} wordsData={wordsData}/>,
+        3: <ListenAndWrite isRandom={isRandom} wordsData={wordsData}/>,
+        4: <FillTheGaps isRandom={isRandom} wordsData={wordsData}/>,
+        5: <TranslateSentence isRandom={isRandom} wordsData={wordsData}/>,
     }
 
     return (

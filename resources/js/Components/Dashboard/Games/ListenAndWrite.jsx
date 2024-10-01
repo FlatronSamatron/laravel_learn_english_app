@@ -8,7 +8,7 @@ import FavoriteStar from "@/Components/Dashboard/FavoriteStar.jsx";
 
 const ATTEMPTS_COUNT = 3
 
-const ListenAndWrite = ({isRandom}) => {
+const ListenAndWrite = ({isRandom, wordsData}) => {
     const [wordNumber, setWordNumber] = useState(0)
     const [attempts, setAttempts] = useState(ATTEMPTS_COUNT)
     const [mixWord, setMixWord] = useState([])
@@ -19,7 +19,6 @@ const ListenAndWrite = ({isRandom}) => {
     const [isFinish, setIsFinish] = useState(false)
 
     const {
-        wordsData,
         language
     } = useContext(DashboardContext);
 

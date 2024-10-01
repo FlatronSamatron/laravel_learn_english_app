@@ -9,6 +9,8 @@ function copyToClipBoard(copyText) {
 const getPercentage = (cnt, isCorrect, correct) => {
     const correctAnswers = (cnt*correct) / 100
 
+    console.log(correctAnswers, cnt)
+
     return (((isCorrect ? !!correctAnswers ? correctAnswers : 1 : correctAnswers - 1) * 100) / cnt).toFixed(2)
 }
 
@@ -26,4 +28,10 @@ const storeStatistic = async (word, isCorrect) => {
     return res.data
 }
 
-export {removeTags, copyToClipBoard, storeStatistic}
+function* chunks(arr, n) {
+    for (let i = 0; i < arr.length; i += n) {
+        yield arr.slice(i, i + n);
+    }
+}
+
+export {removeTags, copyToClipBoard, storeStatistic, chunks}

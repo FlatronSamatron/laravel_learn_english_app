@@ -7,7 +7,7 @@ import GameStatistic from "@/Components/Dashboard/Games/GameStatistic.jsx";
 import {storeStatistic} from "@/Shared/utils.js";
 import FavoriteStar from "@/Components/Dashboard/FavoriteStar.jsx";
 
-const FillTheGaps = ({isRandom}) => {
+const FillTheGaps = ({isRandom, wordsData}) => {
     const [wordNumber, setWordNumber] = useState(0)
     const [answer, setAnswer] = useState("");
     const [isAnswered, setIsAnswered] = useState(false);
@@ -21,7 +21,6 @@ const FillTheGaps = ({isRandom}) => {
     const inputRef = useRef(null);
 
     const {
-        wordsData,
         language
     } = useContext(DashboardContext);
 

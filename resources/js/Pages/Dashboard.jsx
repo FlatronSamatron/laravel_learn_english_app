@@ -6,11 +6,12 @@ import {
     LineChartOutlined,
     RiseOutlined,
 } from "@ant-design/icons";
-import {useEffect, useState} from "react";
-import UnitList from "@/Components/Dashboard/UnitList.jsx";
+import {useState} from "react";
+import WordsList from "@/Components/Dashboard/WordsList.jsx";
 import TrainWords from "@/Components/Dashboard/TrainWords.jsx";
 import { DashboardContext } from "@/Components/Dashboard/DashboardContext.js";
 import UnitStory from "@/Components/Dashboard/UnitStory.jsx";
+import FavoriteList from "@/Components/Dashboard/FavoriteList.jsx";
 
 const getItems = (books) => {
     return [
@@ -39,13 +40,9 @@ const getItems = (books) => {
             })
         },
         {
-            key: 'sub2',
+            key: 'favorite',
             label: 'Favorites',
-            icon: <HeartOutlined />,
-            children: [
-                { key: `learn-favorite`, label: 'Learn' },
-                { key: `train-favorite`, label: 'Train'},
-            ],
+            icon: <HeartOutlined />
         },
         {
             key: 'sub3',
@@ -85,7 +82,7 @@ export default function Dashboard({ auth, books, words, language, favoritesIds, 
     const onClick = (e) => {
         const key = e.key.split('-')
         if(key.includes('favorite')){
-            console.log(favoritesDataIds)
+            setMode('favorite')
         } else {
             setMode(key[0]);
             getUnit(key[1], key[0])
@@ -121,11 +118,16 @@ export default function Dashboard({ auth, books, words, language, favoritesIds, 
                                 mode="inline"
                                 items={getItems(books)}
                             />
-                            {mode === 'learn' && <UnitList
+                            {mode === 'learn' && <WordsList
                                 isLoad={isLoad}
+                                wordsData={wordsData}
                             />}
-                            {mode === 'train' && <TrainWords/>}
+                            {mode === 'train' && <TrainWords
+                                wordsData={wordsData}
+                                setWordsData={setWordsData}
+                            />}
                             {mode === 'story' && <UnitStory/>}
+                            {mode === 'favorite' && <FavoriteList/>}
                         </div>
                     </div>
                 </div>

@@ -23,7 +23,7 @@ const columns = [
     }
 ];
 
-const TranslateSentence = ({isRandom}) => {
+const TranslateSentence = ({isRandom, wordsData}) => {
     const [wordNumber, setWordNumber] = useState(0)
     const [answer, setAnswer] = useState("");
     const [isAnswered, setIsAnswered] = useState(false);
@@ -36,7 +36,6 @@ const TranslateSentence = ({isRandom}) => {
     const inputRef = useRef(null);
 
     const {
-        wordsData,
         language
     } = useContext(DashboardContext);
 
@@ -68,7 +67,6 @@ const TranslateSentence = ({isRandom}) => {
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter" && !!event.target.value) {
-            console.log(word.example)
             setTranslates(prev => [...prev, {
                 example: word.example,
                 translate: event.target.value

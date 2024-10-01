@@ -5,21 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BookResource;
 use App\Http\Resources\ExampleTranslateResource;
-use App\Http\Resources\FavoriteResource;
 use App\Http\Resources\UnitStoryResource;
 use App\Http\Resources\WordResource;
 use App\Http\Resources\WordStatisticResource;
 use App\Models\Book;
-use App\Models\ExampleTranslation;
-use App\Models\Favorite;
 use App\Models\Unit;
-use App\Models\UnitComplete;
-use App\Models\User;
 use App\Models\UserWordStatistic;
 use App\Models\Word;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Traits\Tappable;
 
 class Dashboard extends Controller
 {
@@ -46,30 +39,6 @@ class Dashboard extends Controller
         return inertia('Dashboard', compact('books', 'words', 'language', 'favoritesIds', 'bookUnit'));
     }
 
-    public function addToFavorite(Request $request)
-    {
-        $data = $request->validate([
-                'word_id' => 'required|integer|exists:words,id',
-                'book_id' => 'required|integer|exists:books,id',
-                'unit_id' => 'required|integer|exists:units,id',
-        ]);
-
-        $favoriteWord = auth()->user()->favorites()->where('word_id', $data['word_id']);
-        $isFavorite   = $favoriteWord->exists();
-
-
-        if ($isFavorite) {
-            $favoriteWord->delete();
-        } else {
-            Favorite::create([
-                    ...$data,
-                    'user_id' => auth()->id(),
-            ]);
-        }
-
-
-        return auth()->user()->favorites->pluck('word_id')->toArray();
-    }
 
     public function getUnitWords($book_id, $unit_id)
     {
